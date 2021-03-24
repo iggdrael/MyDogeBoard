@@ -6,6 +6,6 @@ import { TweetDeckComponent } from "../../pages/tweetdeck/tweetdeck.component";
 
 export const AdminLayoutRoutes: Routes = [
   { path: "dashboard", component: DashboardComponent },
-  { path: "icons", component: ChartsComponent },
-  { path: "maps", component: TweetDeckComponent }
+  { path: "charts", component: ChartsComponent },
+  { path: "tweetdeck", component: TweetDeckComponent }
 ];

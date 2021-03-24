@@ -12,60 +12,15 @@ export class AuthLayoutComponent implements OnInit, OnDestroy {
   public menuItems: any[];
   test: Date = new Date();
   closeResult: string;
-  public sidebarColor: string = "red";
   public isCollapsed = true;
   mobile_menu_visible: any = 0;
   private toggleButton: any;
   private sidebarVisible: boolean;
 
   constructor(private router: Router, private modalService: NgbModal) { }
-
-  changeSidebarColor(color){
-    var sidebar = document.getElementsByClassName('sidebar')[0];
-    var mainPanel = document.getElementsByClassName('main-panel')[0];
-
-    this.sidebarColor = color;
-
-    if(sidebar != undefined){
-        sidebar.setAttribute('data',color);
-    }
-    if(mainPanel != undefined){
-        mainPanel.setAttribute('data',color);
-    }
-  }
-  changeDashboardColor(color){
-    var body = document.getElementsByTagName('body')[0];
-    if (body && color === 'white-content') {
-        body.classList.add(color);
-    }
-    else if(body.classList.contains('white-content')) {
-      body.classList.remove('white-content');
-    }
-  }
-  // function that adds color white/transparent to the navbar on resize (this is for the collapse)
-   updateColor = () => {
-   var navbar = document.getElementsByClassName('navbar')[0];
-     if (window.innerWidth < 993 && !this.isCollapsed) {
-       navbar.classList.add('bg-white');
-       navbar.classList.remove('navbar-transparent');
-     } else {
-       navbar.classList.remove('bg-white');
-       navbar.classList.add('navbar-transparent');
-     }
-   };
   ngOnInit() {
     var navbar = document.getElementsByClassName('navbar')[0];
 
-    window.addEventListener("resize", this.updateColor);
-    this.toggleButton = navbar.getElementsByClassName("navbar-toggler")[0];
-    this.router.events.subscribe(event => {
-      this.sidebarClose();
-      var $layer: any = document.getElementsByClassName("close-layer")[0];
-      if ($layer) {
-        $layer.remove();
-        this.mobile_menu_visible = 0;
-      }
-    });
     this.menuItems = ROUTES.filter(menuItem => menuItem);
     // on this page, we need on the body tag the classes .rtl and .menu-on-right
     document.body.classList.add("rtl", "menu-on-right");

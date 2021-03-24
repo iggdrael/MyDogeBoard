@@ -16,14 +16,14 @@ export const ROUTES: RouteInfo[] = [
     class: ""
   },
   {
-    path: "/icons",
+    path: "/charts",
     title: "Charts",
     rtlTitle: "",
     icon: "icon-chart-bar-32",
     class: ""
   },
   {
-    path: "/maps",
+    path: "/tweetdeck",
     title: "Tweet Deck",
     rtlTitle: "",
     icon: "icon-world",
