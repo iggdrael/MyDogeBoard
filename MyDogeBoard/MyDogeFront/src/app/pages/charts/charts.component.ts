@@ -1,14 +1,14 @@
 import { Component, OnInit, } from '@angular/core';
 import Chart from 'chart.js';
-//import Binance from 'binance-api-node';
+import Binance from 'binance-api-node';
 
 //const Binance = require('binance-api-node').default
 
 // Authenticated client, can make signed calls
-//const client = Binance();
+const client = Binance();
 
 
-//client.accountInfo().then(info => console.log(info))
+client.trades({ symbol: 'ETHBTC' }).then(info => console.log(info))
 
 
 
