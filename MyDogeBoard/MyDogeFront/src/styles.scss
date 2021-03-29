@@ -5,7 +5,7 @@
 A PARTIR D'ICI CE SONT DES AJOUTS AU CSS DE BASE AFIN D4OBTENIR LE RENDU VOULU
 -------------*/
 
-.mondashboard, .zonemontab{
+.mondashboard, .zonemontab, .mapagecharts, .tweetdeck, .zonegraph{
     background-color: rgba(249, 201, 7, 0.979);
   }
   
@@ -65,4 +65,19 @@ A PARTIR D'ICI CE SONT DES AJOUTS AU CSS DE BASE AFIN D4OBTENIR LE RENDU VOULU
     position: relative;
     margin-left: 75px;
     font-size: medium;
+  }
+
+  .tweetdeck{
+    height: 600px;
+  }
+
+  .zonegraph{
+    width: 70%;
+    position: relative;
+    margin-left: 3%;
+    float: left;
+  }
+
+  .zonebuysell{
+    margin-left: 73%;
   }
