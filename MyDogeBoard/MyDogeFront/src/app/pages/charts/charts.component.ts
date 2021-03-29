@@ -1,134 +1,132 @@
 import { Component, OnInit, } from '@angular/core';
-import Chart from 'chart.js';
 import Binance from 'binance-api-node';
-
-//const Binance = require('binance-api-node').default
-
-// Authenticated client, can make signed calls
-const client = Binance();
-
-
-client.trades({ symbol: 'ETHBTC' }).then(info => console.log(info))
-
-
-
+import { createChart, CrosshairMode } from 'lightweight-charts';
 
 @Component({
   selector: 'app-charts',
   templateUrl: './charts.component.html',
 })
-export class ChartsComponent implements OnInit {
 
-  public canvas : any;
-  public ctx;
+export class ChartsComponent implements OnInit {
   public datasets: any;
   public data: any;
   public myChartData;
   public clicked: boolean = true;
   public clicked1: boolean = false;
   public clicked2: boolean = false;
-
+  public interval = '1d'
+  public symbol = 'DOGEUSDT'
 
   constructor() { }
 
   ngOnInit() {
 
-    var gradientChartOptionsConfigurationWithTooltipRed: any = {
-      maintainAspectRatio: false,
-      legend: {
-        display: false
-      },
+    const client = Binance();
 
-      tooltips: {
-        backgroundColor: '#f5f5f5',
-        titleFontColor: '#333',
-        bodyFontColor: '#666',
-        bodySpacing: 4,
-        xPadding: 12,
-        mode: "nearest",
-        intersect: 0,
-        position: "nearest"
-      },
-      responsive: true,
-      scales: {
-        yAxes: [{
-          barPercentage: 1.6,
-          gridLines: {
-            drawBorder: false,
-            color: 'rgba(29,140,248,0.0)',
-            zeroLineColor: "transparent",
-          },
-          ticks: {
-            suggestedMin: 60,
-            suggestedMax: 125,
-            padding: 20,
-            fontColor: "#9a9a9a"
-          }
-        }],
-
-        xAxes: [{
-          barPercentage: 1.6,
-          gridLines: {
-            drawBorder: false,
-            color: 'rgba(233,32,16,0.1)',
-            zeroLineColor: "transparent",
-          },
-          ticks: {
-            padding: 20,
-            fontColor: "#9a9a9a"
-          }
-        }]
+    client.time().then(timestamp => {
+      var conf = {
+        symbol: this.symbol,
+        interval: this.interval,
+        startTime: timestamp - this.maxCandlesTimestamp(),
+        endTime: timestamp
       }
-    };
 
-    var chart_labels = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
-    this.datasets = [
-      [100, 70, 90, 70, 85, 60, 75, 60, 90, 80, 110, 100],
-      [80, 120, 105, 110, 95, 105, 90, 100, 80, 95, 70, 120],
-      [60, 80, 65, 130, 80, 105, 90, 130, 70, 115, 60, 130]
-    ];
-    this.data = this.datasets[0];
+      var chart = createChart(document.getElementById('chartBig1'), {
+        width: 1200,
+        height: 600,
+        layout: {
+          backgroundColor: '#FF000000', //1e1e2a
+          textColor: 'rgba(255, 255, 255, 0.9)',
+        },
+        grid: {
+          vertLines: {
+            color: 'rgba(197, 203, 206, 0.5)',
+          },
+          horzLines: {
+            color: 'rgba(197, 203, 206, 0.5)',
+          },
+        },
+        crosshair: {
+          mode: CrosshairMode.Normal,
+        },
+        timeScale: {
+          borderColor: 'rgba(197, 203, 206, 0.8)',
+          timeVisible: true,
+          secondsVisible: false,
+        },
+      });
+      
+      var candleSeries = chart.addCandlestickSeries({
+        upColor: '#00ff00',
+        downColor: '#ff0000', 
+        borderDownColor: 'rgba(255, 144, 0, 1)',
+        borderUpColor: 'rgba(255, 144, 0, 1)',
+        wickDownColor: 'rgba(255, 144, 0, 1)',
+        wickUpColor: 'rgba(255, 144, 0, 1)',
+      });
+      
 
+      client.candles(conf).then(info => {
+        console.log(info)
+        var lightweight_candles = [];
 
+        info.forEach(candle => {
+          var candlestick = { 
+            "time": candle.openTime / 1000 + 7200, 
+            "open": candle.open,
+            "high": candle.high, 
+            "low": candle.low, 
+            "close": candle.close
+          }
+          lightweight_candles.push(candlestick)
+        });
+        candleSeries.setData(lightweight_candles);
+      });
 
-    this.canvas = document.getElementById("chartBig1");
-    this.ctx = this.canvas.getContext("2d");
-
-    var gradientStroke = this.ctx.createLinearGradient(0, 230, 0, 50);
-
-    gradientStroke.addColorStop(1, 'rgba(233,32,16,0.2)');
-    gradientStroke.addColorStop(0.4, 'rgba(233,32,16,0.0)');
-    gradientStroke.addColorStop(0, 'rgba(233,32,16,0)'); //red colors
-
-    var config = {
-      type: 'line',
-      data: {
-        labels: chart_labels,
-        datasets: [{
-          label: "My First dataset",
-          fill: true,
-          backgroundColor: gradientStroke,
-          borderColor: '#ec250d',
-          borderWidth: 2,
-          borderDash: [],
-          borderDashOffset: 0.0,
-          pointBackgroundColor: '#ec250d',
-          pointBorderColor: 'rgba(255,255,255,0)',
-          pointHoverBackgroundColor: '#ec250d',
-          pointBorderWidth: 20,
-          pointHoverRadius: 4,
-          pointHoverBorderWidth: 15,
-          pointRadius: 4,
-          data: this.data,
-        }]
-      },
-      options: gradientChartOptionsConfigurationWithTooltipRed
-    };
-    this.myChartData = new Chart(this.ctx, config);
-
+      var strStream = "wss://stream.binance.com:9443/ws/" + this.symbol.toLowerCase() + "@kline_" + this.interval;
+      console.log(strStream)
+      var binanceSocket = new WebSocket(strStream);
+      
+      binanceSocket.onmessage = function (event) {	
+        var message = JSON.parse(event.data);
+      
+        var candlestick = message.k;
+      
+        console.log(candlestick)
+      
+        candleSeries.update({
+          time: candlestick.t / 1000 + 7200,
+          open: candlestick.o,
+          high: candlestick.h,
+          low: candlestick.l,
+          close: candlestick.c
+        })
+      }
+    });
   }
+
+  public maxCandlesTimestamp() {
+    switch (this.interval) {
+      case '1m': return 60000*500;
+      case '3m': return 3*60000*500;
+      case '5m': return 5*60000*500;
+      case '15m': return 15*60000*500;
+      case '30m': return 30*60000*500;
+      case '1h': return 60*60000*500;
+      case '2h': return 120*60000*500;
+      case '4h': return 240*60000*500;
+      case '6h': return 360*60000*500;
+      case '8h': return 480*60000*500;
+      case '12h': return 720*60000*500;
+      case '1d': return 1440*60000*500;
+      case '3d': return 4320*60000*500;
+      case '1w': return 10080*60000*500;
+      case '1M': return 40320*60000*500;
+      default: return 60000;
+    }
+  }
+
   public updateOptions() {
-    this.myChartData.data.datasets[0].data = this.data;
-    this.myChartData.update();
+    
   }
 }
