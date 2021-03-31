@@ -14,8 +14,8 @@ export class ChartsComponent implements OnInit {
   public clicked: boolean = true;
   public clicked1: boolean = false;
   public clicked2: boolean = false;
-  public interval = '1d'
-  public symbol = 'DOGEUSDT'
+  public interval = '1m'
+  public symbol = 'ETHUSDT'
 
   constructor() { }
 
@@ -24,13 +24,6 @@ export class ChartsComponent implements OnInit {
     const client = Binance();
 
     client.time().then(timestamp => {
-      var conf = {
-        symbol: this.symbol,
-        interval: this.interval,
-        startTime: timestamp - this.maxCandlesTimestamp(),
-        endTime: timestamp
-      }
-
       var chart = createChart(document.getElementById('chartBig1'), {
         width: 1200,
         height: 600,
@@ -65,6 +58,12 @@ export class ChartsComponent implements OnInit {
         wickUpColor: 'rgba(255, 144, 0, 1)',
       });
       
+      var conf = {
+        symbol: this.symbol,
+        interval: '1m',
+        startTime: timestamp - this.maxCandlesTimestamp(),
+        endTime: timestamp
+      }
 
       client.candles(conf).then(info => {
         console.log(info)
@@ -93,9 +92,10 @@ export class ChartsComponent implements OnInit {
         var candlestick = message.k;
       
         console.log(candlestick)
-      
+
+        candlestick.t = candlestick.t / 1000 + 7200
         candleSeries.update({
-          time: candlestick.t / 1000 + 7200,
+          time: candlestick.t,
           open: candlestick.o,
           high: candlestick.h,
           low: candlestick.l,
