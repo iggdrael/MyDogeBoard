@@ -14,8 +14,8 @@ export class ChartsComponent implements OnInit {
   public clicked: boolean = true;
   public clicked1: boolean = false;
   public clicked2: boolean = false;
-  public interval = '1m'
-  public symbol = 'ETHUSDT'
+  public interval = '1m';
+  public symbol = 'ETHUSDT';
 
   constructor() { }
 
@@ -60,7 +60,7 @@ export class ChartsComponent implements OnInit {
       
       var conf = {
         symbol: this.symbol,
-        interval: '1m',
+        interval: this.interval,
         startTime: timestamp - this.maxCandlesTimestamp(),
         endTime: timestamp
       }
