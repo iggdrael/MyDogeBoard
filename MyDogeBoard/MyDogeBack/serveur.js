@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
-const Binance = require('binance-api-node').default
+const Binance = require('binance-api-node').default;
+const { response } = require('express');
 //const mongoose = require('mongoose'); 
 
 const app = express(),
@@ -57,20 +58,21 @@ async function getBalances(callback){
       usdt_balance.sort(function(a, b) {
         return b.total - a.total;
       });
-      callback(usdt_balance)
-      /*
-      console.log(usdt_balance)
-      console.log(total_usdt.toFixed(2), "USDT")
-      let total_btc = total_usdt / prices.BTCUSDT
-      console.log(total_btc.toFixed(8), "BTC")*/
+      var portefeuille = {}
+      portefeuille["totalUSD"] = total_usdt.toFixed(2)
+      portefeuille["totalBTC"] = (total_usdt / prices.BTCUSDT).toFixed(8)
 
+      var result = {}
+      result["balances"] = usdt_balance
+      result["portefeuille"] = portefeuille
+
+      callback(result)
 }
-
-getBalances(function(result){
-    app.get("/Cryptos", (req, res) => {
-        res.json(result);
-    });
-})
+app.get("/Cryptos", (req, res) => {
+    getBalances(function(result){
+        res.json(result)
+    })
+});
 
 app.listen(port, () => {
     console.log('Server running on port ' + port);

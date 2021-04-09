@@ -19,7 +19,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let asset of Cryptos; let i = index">
+                    <tr *ngFor="let asset of Cryptos.balances; let i = index">
                         <td class="text-left"><a href="#" class="normalLink">{{i+1}}</a></td>
                         <td class="text-center"><a href="#" class="normalLink">{{asset.amount}}</a></td>
                         <td class="text-center"><a href="#" class="normalLink">{{asset.coin}}</a></td>
@@ -38,7 +38,8 @@
             <div class="monbilan">
                 <br>
                 <h1>Mon portefeuille</h1>
-                <h3><span>Valeur totale = </span><span>$ 0000.00</span><br><span class="alignement">=  </span><span>0.0000000000</span><span> BTC</span>
+                <h3><span>Valeur totale = </span><span>${{Cryptos.portefeuille.totalUSD}}</span>
+                <br><span class="alignement">=  </span><span>${{Cryptos.portefeuille.totalBTC}}</span><span> BTC</span>
                 <br><span> Capital de départ = </span><span>$ 1000</span>
                 <br><span> Investissements ponctuels = </span><span>$ 175</span>
                 <br><span> Total investi = </span><span>$ 1175</span></h3>
