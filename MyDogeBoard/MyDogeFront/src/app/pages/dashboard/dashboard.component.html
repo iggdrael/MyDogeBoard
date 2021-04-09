@@ -3,118 +3,33 @@
     <div class="mondashboard">
         <img src="../../../assets/img/dogecoin-logo.png" alt="doge incon so kawai" height="60px" width="60px"/>
         <br>
+
         <div class="zonemontab">
-            <table class="montab" border=1>
-                <tr class="tabtitle">
-                <th><center>Amount</center></th>
-                <th><center>Coin</center></th>
-                    <th><center>Price</center></th>
-                    <th><center>Total</center></th>
-                    <th><center>1h</center></th>
-                    <th><center>24h</center></th>
-                    <th><center>7d</center></th>
-                    <th><center>Last 7 Days</center></th>
-                </tr>
-                <tr class="tabligne">
-                    <td><center>montant 1</center></td>
-                    <td><center>monnaie 1</center></td>
-                    <td><center>prix 1</center></td>
-                    <td><center>$ XXXXXX</center></td>
-                    <td><center>0.0%</center></td>
-                    <td><center>0.0%</center></td>
-                    <td><center>0.0%</center></td>
-                    <td><center>courbe 1</center></td>
-                </tr>
-                <tr class="tabligne">
-                    <td><center>montant 2</center></td>
-                    <td><center>monnaie 2</center></td>
-                    <td><center>prix 2</center></td>
-                    <td><center>$ XXXXXX</center></td>
-                    <td><center>0.0%</center></td>
-                    <td><center>0.0%</center></td>
-                    <td><center>0.0%</center></td>
-                    <td><center>courbe 2</center></td>
-                </tr>
-                <tr class="tabligne">
-                    <td><center>montant 3</center></td>
-                    <td><center>monnaie 3</center></td>
-                    <td><center>prix 3</center></td>
-                    <td><center>$ XXXXXX</center></td>
-                    <td><center>0.0%</center></td>
-                    <td><center>0.0%</center></td>
-                    <td><center>0.0%</center></td>
-                    <td><center>courbe 3</center></td>
-                </tr>
-                <tr class="tabligne">
-                    <td><center>montant 4</center></td>
-                    <td><center>monnaie 4</center></td>
-                    <td><center>prix 4</center></td>
-                    <td><center>$ XXXXXX</center></td>
-                    <td><center>0.0%</center></td>
-                    <td><center>0.0%</center></td>
-                    <td><center>0.0%</center></td>
-                    <td><center>courbe 4</center></td>
-                </tr>
-                <tr class="tabligne">
-                    <td><center>montant 5</center></td>
-                    <td><center>monnaie 5</center></td>
-                    <td><center>prix 5</center></td>
-                    <td><center>$ XXXXXX</center></td>
-                    <td><center>0.0%</center></td>
-                    <td><center>0.0%</center></td>
-                    <td><center>0.0%</center></td>
-                    <td><center>courbe 5</center></td>
-                </tr>
-                <tr class="tabligne">
-                    <td><center>montant 6</center></td>
-                    <td><center>monnaie 6</center></td>
-                    <td><center>prix 6</center></td>
-                    <td><center>$ XXXXXX</center></td>
-                    <td><center>0.0%</center></td>
-                    <td><center>0.0%</center></td>
-                    <td><center>0.0%</center></td>
-                    <td><center>courbe 6</center></td>
-                </tr>
-                <tr class="tabligne">
-                    <td><center>montant 7</center></td>
-                    <td><center>monnaie 7</center></td>
-                    <td><center>prix 7</center></td>
-                    <td><center>$ XXXXXX</center></td>
-                    <td><center>0.0%</center></td>
-                    <td><center>0.0%</center></td>
-                    <td><center>0.0%</center></td>
-                    <td><center>courbe 7</center></td>
-                </tr>
-                <tr class="tabligne">
-                    <td><center>montant 8</center></td>
-                    <td><center>monnaie 8</center></td>
-                    <td><center>prix 8</center></td>
-                    <td><center>$ XXXXXX</center></td>
-                    <td><center>0.0%</center></td>
-                    <td><center>0.0%</center></td>
-                    <td><center>0.0%</center></td>
-                    <td><center>courbe 8</center></td>
-                </tr>
-                <tr class="tabligne">
-                    <td><center>montant 9</center></td>
-                    <td><center>monnaie 9</center></td>
-                    <td><center>prix 9</center></td>
-                    <td><center>$ XXXXXX</center></td>
-                    <td><center>0.0%</center></td>
-                    <td><center>0.0%</center></td>
-                    <td><center>0.0%</center></td>
-                    <td><center>courbe 9</center></td>
-                </tr>
-                <tr class="tabligne">
-                    <td><center>montant 10</center></td>
-                    <td><center>monnaie 10</center></td>
-                    <td><center>prix 10</center></td>
-                    <td><center>$ XXXXXX</center></td>
-                    <td><center>0.0%</center></td>
-                    <td><center>0.0%</center></td>
-                    <td><center>0.0%</center></td>
-                    <td><center>courbe 10</center></td>
-                </tr>
+            <table class="table" id="mesCryptos">
+                <thead>
+                  <tr class="tabtitle">
+                    <th class="text-left">#</th>
+                    <th class="text-center">Amount</th>
+                    <th class="text-center">Coin</th>
+                    <th class="text-center">Price</th>
+                    <th class="text-center">Total</th>
+                    <th class="text-center">1h</th>
+                    <th class="text-center">24h</th>
+                    <th class="text-center">7d</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let asset of Cryptos; let i = index">
+                        <td class="text-left"><a href="#" class="normalLink">{{i+1}}</a></td>
+                        <td class="text-center"><a href="#" class="normalLink">{{asset.amount}}</a></td>
+                        <td class="text-center"><a href="#" class="normalLink">{{asset.coin}}</a></td>
+                        <td class="text-center"><a href="#" class="normalLink">${{asset.price}}</a></td>
+                        <td class="text-center"><a href="#" class="normalLink">${{asset.total}}</a></td>
+                        <td class="text-center"><a href="#" class="normalLink">{{asset.oneHourVar}}%</a></td>
+                        <td class="text-center"><a href="#" class="normalLink">{{asset.twFourHourVar}}%</a></td>
+                        <td class="text-center"><a href="#" class="normalLink">{{asset.sevenDaysVar}}%</a></td>
+                    </tr>
+                </tbody>
             </table>
             <br>
         </div>
@@ -141,5 +56,4 @@
             <br><br>
         </div>
     </div>
-
 </div>

@@ -80,6 +80,7 @@
     "is-unicode-supported": "^0.1.0",
     "lightweight-charts": "^3.3.0",
     "mongodb": "^3.6.5",
+    "mongoose": "^5.12.3",
     "ngx-toastr": "13.2.0",
     "rxjs": "6.6.3",
     "tslib": "2.0.3",

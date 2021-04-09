@@ -65,7 +65,7 @@ export class ChartsComponent implements OnInit {
         endTime: timestamp
       }
 
-      /**client.candles(conf).then(info => {
+      client.candles(conf).then(info => {
         console.log(info)
         var lightweight_candles = [];
 
@@ -80,7 +80,7 @@ export class ChartsComponent implements OnInit {
           lightweight_candles.push(candlestick)
         });
         candleSeries.setData(lightweight_candles);
-      });*/
+      });
 
       var strStream = "wss://stream.binance.com:9443/ws/" + this.symbol.toLowerCase() + "@kline_" + this.interval;
       console.log(strStream)
