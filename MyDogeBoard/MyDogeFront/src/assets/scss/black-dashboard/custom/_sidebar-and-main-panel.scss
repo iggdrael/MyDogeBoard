@@ -249,6 +249,7 @@
             display: block;
             height: auto;
             white-space: nowrap;
+            font-size: initial;
             @extend .animation-transition-general;
         }
 

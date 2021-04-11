@@ -22,7 +22,7 @@ A PARTIR D'ICI CE SONT DES AJOUTS AU CSS DE BASE AFIN D'OBTENIR LE RENDU VOULU
 
 .zonemontab {
   width: 100%;
-  height: 380px;
+  height: 790px;
   overflow: auto;
 }
 
@@ -81,6 +81,8 @@ thead th {
 }
 
 .normalLink,
+.normalLink-var,
+.normalLink-var:focus,
 .normalLink:focus {
   color: #c1c1c1;
 }

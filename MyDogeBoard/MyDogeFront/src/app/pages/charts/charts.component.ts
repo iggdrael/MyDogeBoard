@@ -27,7 +27,7 @@ export class ChartsComponent implements OnInit {
       let e = document.getElementById('chartBig1')
       var chart = createChart(e, {
         width: e.offsetWidth - 40,
-        height: 300,
+        height: 650,
         layout: {
           backgroundColor: '#FF000000', //1e1e2a
           textColor: 'rgba(235, 235, 235, 0.9)',
