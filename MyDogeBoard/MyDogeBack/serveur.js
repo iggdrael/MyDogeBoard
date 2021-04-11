@@ -1,123 +1,19 @@
 const express = require('express');
 const cors = require('cors');
-const Binance = require('binance-api-node').default;
 const CoinGecko = require('coingecko-api');
-//const mongoose = require('mongoose'); 
 
 const app = express(),
         port = 3080;
-
-        /*
-const url = 'mongodb+srv://qbort:uyHnWWk1LAcqmeqZ@mydogeboard.wcpgq.mongodb.net/MyDogeBoard?retryWrites=true&w=majority';
-mongoose.connect(url, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-    useCreateIndex: true
-}).then(e => { console.log("Connected") } );*/
-
-const client = Binance({
-    apiKey: "rFHK3yLBOEFVTVtscnxOu06X4tfFXIa5GMA46Amshgf0bXA9kUtdlFacfkwoZR2d",
-    apiSecret: "qAburcbZ7T5TJAYjH3uf3oaK2wD7Gi6T6n4pkZV0PjSZBF7g6ADTOkyUqYR2IS2s",
-})
 
 //2. Initiate the CoinGecko API Client
 const CoinGeckoClient = new CoinGecko();
 
 app.use(cors());
 
-function binanceAssetToGeckoId(asset){
-    
-}
-
-async function getBalances(callback){
-    const HOUR = 3600000;
-    const DAY = 86400000;
-    const WEEK = 604800000;
-
-    let total_usdt = 0
-    let usdt_balance = []
-    let prices = await client.prices()
-    let balance = await client.accountInfo()
-    let timestamp = await client.time()
-
-    let timestampHOUR = (timestamp - HOUR) / 1000
-    let timestampDAY = (timestamp - DAY) / 1000
-    let timestampWEEK = (timestamp - WEEK) / 1000
-
-    for (let i = 0; i < balance['balances'].length; i++){
-        let item = balance['balances'][i]
-        if (item.free > 0){
-            let paire = item.asset + "USDT"
-            let dict = {}
-            let totalAsset;
-            let oldPriceOneHour = 1;
-            let oldPriceTwFourHour = 1;
-            let oldPriceSevenDays = 1;
- 
-            dict["amount"] = (parseFloat(item.free) + parseFloat(item.locked)).toFixed(5)
-            dict["coin"] = item.asset
-            if (item.asset.localeCompare("USDT") == 0){
-                dict["price"] = 1.00
-                totalAsset = (parseFloat(item.free) + parseFloat(item.locked))
-                oldPriceOneHour = 1.00
-                oldPriceTwFourHour = 1.00
-                oldPriceSevenDays = 1.00
-            }
-            else{
-                dict["price"] = parseFloat(prices[paire]).toFixed(2)
-                totalAsset = (parseFloat(item.free) + parseFloat(item.locked)) * parseFloat(prices[paire])
-                
-                oldPriceOneHour = await CoinGeckoClient.coins.fetchMarketChartRange('bitcoin', {
-                    from: timestampHOUR - 5000,
-                    to: timestampHOUR,
-                })
-                oldPriceOneHour = oldPriceOneHour.data.prices[0][1]
-                
-                oldPriceTwFourHour = await CoinGeckoClient.coins.fetchMarketChartRange('bitcoin', {
-                    from: timestampDAY - 5000,
-                    to: timestampDAY,
-                })
-                oldPriceTwFourHour = oldPriceTwFourHour.data.prices[0][1]
-
-                oldPriceSevenDays = await CoinGeckoClient.coins.fetchMarketChartRange('bitcoin', {
-                    from: timestampWEEK - 5000,
-                    to: timestampWEEK,
-                })
-                oldPriceSevenDays = oldPriceSevenDays.data.prices[0][1]
-            }
-            dict["total"] = totalAsset.toFixed(5)
-            dict["oneHourVar"] = ((dict["price"] - oldPriceOneHour)/ 
-                oldPriceOneHour * 100).toFixed(2);
-            dict["twFourHourVar"] = ((dict["price"] - oldPriceTwFourHour)/ 
-                oldPriceTwFourHour * 100).toFixed(2);
-            dict["sevenDaysVar"] = ((dict["price"] - oldPriceSevenDays)/ 
-                oldPriceSevenDays * 100).toFixed(2);
-        
-            total_usdt += totalAsset
-
-            usdt_balance.push(dict)
-        }
-      }
-
-      usdt_balance.sort(function(a, b) {
-        return b.total - a.total;
-      });
-      var portefeuille = {}
-      portefeuille["totalUSD"] = total_usdt.toFixed(2)
-      portefeuille["totalBTC"] = (total_usdt / prices.BTCUSDT).toFixed(8)
-
-      var result = {}
-      result["balances"] = usdt_balance
-      result["portefeuille"] = portefeuille
-
-      callback(result)
-}
-
 app.get("/Cryptos", (req, res) => {
-    getBalances(function(result){
-        res.json(result)
-    })
+    res.json(
+        {"balances":[{"amount":"2.98289","coin":"BNB","price":"491.69","total":"1466.65744","oneHourVar":"-99.17","twFourHourVar":"-99.19","sevenDaysVar":"-99.15"},{"amount":"0.31096","coin":"ETH","price":"2151.71","total":"669.09264","oneHourVar":"-96.39","twFourHourVar":"-96.44","sevenDaysVar":"-96.30"},{"amount":"14.87507","coin":"SOL","price":"27.65","total":"411.23477","oneHourVar":"-99.95","twFourHourVar":"-99.95","sevenDaysVar":"-99.95"},{"amount":"291.70474","coin":"REN","price":"1.07","total":"310.79682","oneHourVar":"-100.00","twFourHourVar":"-100.00","sevenDaysVar":"-100.00"},{"amount":"1.10100","coin":"EGLD","price":"226.78","total":"249.68918","oneHourVar":"-99.62","twFourHourVar":"-99.62","sevenDaysVar":"-99.61"},{"amount":"31.99000","coin":"NEAR","price":"7.02","total":"224.71375","oneHourVar":"-99.99","twFourHourVar":"-99.99","sevenDaysVar":"-99.99"},{"amount":"37.56370","coin":"1INCH","price":"5.71","total":"214.37227","oneHourVar":"-99.99","twFourHourVar":"-99.99","sevenDaysVar":"-99.99"},{"amount":"10.83000","coin":"BAND","price":"17.31","total":"187.51820","oneHourVar":"-99.97","twFourHourVar":"-99.97","sevenDaysVar":"-99.97"},{"amount":"58.20000","coin":"ENJ","price":"3.12","total":"181.43675","oneHourVar":"-99.99","twFourHourVar":"-99.99","sevenDaysVar":"-99.99"},{"amount":"5.39878","coin":"AVAX","price":"31.99","total":"172.70692","oneHourVar":"-99.95","twFourHourVar":"-99.95","sevenDaysVar":"-99.95"},{"amount":"14.00000","coin":"THETA","price":"12.27","total":"171.75396","oneHourVar":"-99.98","twFourHourVar":"-99.98","sevenDaysVar":"-99.98"},{"amount":"95.49000","coin":"OCEAN","price":"1.77","total":"169.11279","oneHourVar":"-100.00","twFourHourVar":"-100.00","sevenDaysVar":"-100.00"},{"amount":"0.53136","coin":"LTC","price":"253.00","total":"134.43408","oneHourVar":"-99.58","twFourHourVar":"-99.58","sevenDaysVar":"-99.57"},{"amount":"0.00206","coin":"BTC","price":"59733.82","total":"123.10662","oneHourVar":"0.32","twFourHourVar":"-1.15","sevenDaysVar":"2.66"},{"amount":"3.57000","coin":"LINK","price":"33.59","total":"119.92094","oneHourVar":"-99.94","twFourHourVar":"-99.94","sevenDaysVar":"-99.94"},{"amount":"88.20513","coin":"ADA","price":"1.24","total":"109.21912","oneHourVar":"-100.00","twFourHourVar":"-100.00","sevenDaysVar":"-100.00"},{"amount":"1.73600","coin":"FTT","price":"49.95","total":"86.71667","oneHourVar":"-99.92","twFourHourVar":"-99.92","sevenDaysVar":"-99.91"},{"amount":"1.85950","coin":"DOT","price":"40.47","total":"75.24917","oneHourVar":"-99.93","twFourHourVar":"-99.93","sevenDaysVar":"-99.93"},{"amount":"0.00154","coin":"YFI","price":"46224.83","total":"71.32491","oneHourVar":"-22.37","twFourHourVar":"-23.51","sevenDaysVar":"-20.55"},{"amount":"101.70000","coin":"XLM","price":"0.60","total":"61.52443","oneHourVar":"-100.00","twFourHourVar":"-100.00","sevenDaysVar":"-100.00"},{"amount":"2.02022","coin":"UNI","price":"30.01","total":"60.62048","oneHourVar":"-99.95","twFourHourVar":"-99.95","sevenDaysVar":"-99.95"},{"amount":"6.80000","coin":"BNT","price":"7.13","total":"48.46904","oneHourVar":"-99.99","twFourHourVar":"-99.99","sevenDaysVar":"-99.99"},{"amount":"0.09100","coin":"KSM","price":"439.67","total":"40.01033","oneHourVar":"-99.26","twFourHourVar":"-99.27","sevenDaysVar":"-99.24"},{"amount":"2.61000","coin":"RUNE","price":"11.89","total":"31.03473","oneHourVar":"-99.98","twFourHourVar":"-99.98","sevenDaysVar":"-99.98"},{"amount":"1.96800","coin":"SUSHI","price":"14.40","total":"28.33920","oneHourVar":"-99.98","twFourHourVar":"-99.98","sevenDaysVar":"-99.98"},{"amount":"41.91000","coin":"UTK","price":"0.63","total":"26.49131","oneHourVar":"-100.00","twFourHourVar":"-100.00","sevenDaysVar":"-100.00"},{"amount":"212.00000","coin":"RSR","price":"0.09","total":"18.48852","oneHourVar":"-100.00","twFourHourVar":"-100.00","sevenDaysVar":"-100.00"},{"amount":"9.85557","coin":"USDT","price":1,"total":"9.85557","oneHourVar":"0.00","twFourHourVar":"0.00","sevenDaysVar":"0.00"},{"amount":"0.26939","coin":"LIT","price":"11.69","total":"3.14957","oneHourVar":"-99.98","twFourHourVar":"-99.98","sevenDaysVar":"-99.98"},{"amount":"0.09093","coin":"DEGO","price":"17.96","total":"1.63329","oneHourVar":"-99.97","twFourHourVar":"-99.97","sevenDaysVar":"-99.97"},{"amount":"0.06000","coin":"MANA","price":"1.06","total":"0.06331","oneHourVar":"-100.00","twFourHourVar":"-100.00","sevenDaysVar":"-100.00"},{"amount":"0.00601","coin":"EUR","price":"1.19","total":"0.00718","oneHourVar":"-100.00","twFourHourVar":"-100.00","sevenDaysVar":"-100.00"},{"amount":"0.00022","coin":"UMA","price":"27.68","total":"0.00607","oneHourVar":"-99.95","twFourHourVar":"-99.95","sevenDaysVar":"-99.95"},{"amount":"0.00049","coin":"OMG","price":"9.72","total":"0.00476","oneHourVar":"-99.98","twFourHourVar":"-99.98","sevenDaysVar":"-99.98"},{"amount":"0.03400","coin":"REEF","price":"0.04","total":"0.00136","oneHourVar":"-100.00","twFourHourVar":"-100.00","sevenDaysVar":"-100.00"}],"portefeuille":{"totalUSD":"5478.76","totalBTC":"0.09171950"}}
+    )
 });
 
 app.listen(port, () => {

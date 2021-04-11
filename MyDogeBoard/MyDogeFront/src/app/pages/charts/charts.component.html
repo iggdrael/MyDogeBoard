@@ -1,19 +1,150 @@
 
 <div class=" content">
-  <div class="zonegraph">
-    <div id="chartBig1"> </div>
-  </div>
-  <div class="zonebuysell">
-    <div class="card" style="width: 110%;">
-      <div class="card-body">
-        <button class="btn btn-default animation-on-hover" type="button">Achat</button>
-        <button class="btn btn-default animation-on-hover" type="button">Vente</button>
-        <p>
-          <FONT size="4pt"><br><span>Vous Possédez : </span><span>XXXX de Y crypto</span><br><br>
-        <span>Quantité : </span><span>still bugged</span><br><br>
-        <span>Prix : </span><span>un prix</span><br><br>
-        <span>Total : </span><span>un total</span><br><br></FONT></p>
-        <button class="btn btn-primary animation-on-hover" type="button" style="margin-left: 5px;">Effectuer l'opération</button>
+  
+  <div id = "chart">
+    <div class="zonegraph">
+      <div id="graph_top_bar">
+        <div id="graph_setting">
+
+          <form>
+            <input class="chosen-value" type="text" value="" placeholder="BTC/USDT">
+            <ul class="value-list">
+              <li>Alabama</li>
+              <li>Alaska</li>
+              <li>Arizona</li>
+              <li>Arkansas</li>
+              <li>California</li>
+              <li>Colorado</li>
+              <li>Connecticut</li>
+              <li>Delaware</li>
+              <li>Florida</li>
+              <li>Georgia</li>
+              <li>Hawaii</li>
+              <li>Idaho</li>
+              <li>Illinois</li>
+              <li>Indiana</li>
+              <li>Iowa</li>
+              <li>Kansas</li>
+              <li>Kentucky</li>
+              <li>Louisiana</li>
+              <li>Maine</li>
+              <li>Maryland</li>
+              <li>Massachusetts</li>
+              <li>Michigan</li>
+              <li>Minnesota</li>
+              <li>Mississippi</li>
+              <li>Missouri</li>
+              <li>Montana</li>
+              <li>Nebraska</li>
+              <li>Nevada</li>
+              <li>New Hampshire</li>
+              <li>New Jersey</li>
+              <li>New Mexico</li>
+              <li>New York</li>
+              <li>North Carolina</li>
+              <li>North Dakota</li>
+              <li>Ohio</li>
+              <li>Oklahoma</li>
+              <li>Oregon</li>
+              <li>Pennsylvania</li>
+              <li>Rhode Island</li>
+              <li>South Carolina</li>
+              <li>South Dakota</li>
+              <li>Tennessee</li>
+              <li>Texas</li>
+              <li>Utah</li>
+              <li>Vermont</li>
+              <li>Virginia</li>
+              <li>Washington</li>
+              <li>West Virginia</li>
+              <li>Wisconsin</li>
+              <li>Wyoming</li>
+            </ul>
+          </form>
+
+
+
+        </div>
+
+        <div style="margin-left: 20px; margin-right: 20px;">
+          <button class="button">
+            <div class="button__content">
+              <p class="button__text">1 m</p>
+            </div>
+          </button>
+          <button class="button">
+            <div class="button__content">
+              <p class="button__text">1 j</p>
+            </div>
+          </button>
+          <button class="button">
+            <div class="button__content">
+              <p class="button__text">1 s</p>
+            </div>
+          </button>
+        </div>
+
+
+        <div id="evo_div">
+          <div>
+            <div style="display: inline-block;">Jour :</div>
+            <div class="evo" id="graph_evo" style="color: #2dd794; display: inline-block;">+ 1.41%</div>
+          </div>
+
+          <div id="resp_graphevo">
+            <div style="display: inline-block;">Semaine :</div>
+            <div class="evo" id="graph_evo" style="color: #e61e42; display: inline-block;">- 5.41%</div>
+          </div>
+
+          <div id="resp_graphevo">
+            <div style="display: inline-block;">Mois :</div> 
+            <div class="evo" id="graph_evo" style="color: #2dd794; display: inline-block;">+ 13.71%</div>
+          </div>
+        </div>
+      </div>
+
+    
+      <div id="chartBig1"></div>
+
+
+    </div>
+      
+  
+    
+    <div class="zonebuysell">
+      <div id="achat_vente">
+
+        <div class="column_achat_vente">
+
+          <div style="display: flex; flex-direction: row;">
+            <div style="white-space: nowrap;">USDT : </div> 
+            <input type="Montant" placeholder="Montant" style="width: 100%;">
+          </div>
+          
+          <div style="display: flex; flex-direction: row;">
+            <div style="white-space: nowrap;">BTC : </div>
+            <input type="Total" placeholder="Total" style="width: 100%;">
+          </div>
+          
+          <button id="acheter">Acheter</button>
+
+        </div>
+
+        <div class="column_achat_vente">
+
+          <div style="display: flex; flex-direction: row;">
+            <div style="white-space: nowrap;">BTC : </div>
+            <input type="Montant" placeholder="Montant" style="width: 100%;">
+          </div>
+
+          <div style="display: flex; flex-direction: row;">
+            <div style="white-space: nowrap;">USDT : </div> 
+            <input type="Total" placeholder="Total" style="width: 100%;">
+          </div>
+
+          <button id="vendre">Vendre</button>
+
+        </div>
       </div>
     </div>
   </div>
@@ -84,5 +215,3 @@
         </div>
       </div>-->
   </div>
-
-

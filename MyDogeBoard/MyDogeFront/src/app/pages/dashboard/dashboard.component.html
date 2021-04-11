@@ -1,60 +1,82 @@
 
 <div class="content">
-    <div class="mondashboard">
-        <img src="../../../assets/img/dogecoin-logo.png" alt="doge incon so kawai" height="60px" width="60px"/>
-        <br>
 
-        <div class="zonemontab">
-            <table class="table" id="mesCryptos">
-                <thead>
-                  <tr class="tabtitle">
-                    <th class="text-left">#</th>
-                    <th class="text-center">Amount</th>
-                    <th class="text-center">Coin</th>
-                    <th class="text-center">Price</th>
-                    <th class="text-center">Total</th>
-                    <th class="text-center">1h</th>
-                    <th class="text-center">24h</th>
-                    <th class="text-center">7d</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let asset of Cryptos.balances; let i = index">
-                        <td class="text-left"><a href="#" class="normalLink">{{i+1}}</a></td>
-                        <td class="text-center"><a href="#" class="normalLink">{{asset.amount}}</a></td>
-                        <td class="text-center"><a href="#" class="normalLink">{{asset.coin}}</a></td>
-                        <td class="text-center"><a href="#" class="normalLink">${{asset.price}}</a></td>
-                        <td class="text-center"><a href="#" class="normalLink">${{asset.total}}</a></td>
-                        <td class="text-center"><a href="#" class="normalLink">{{asset.oneHourVar}}%</a></td>
-                        <td class="text-center"><a href="#" class="normalLink">{{asset.twFourHourVar}}%</a></td>
-                        <td class="text-center"><a href="#" class="normalLink">{{asset.sevenDaysVar}}%</a></td>
-                    </tr>
-                </tbody>
-            </table>
-            <br>
-        </div>
+        <!--<img src="../../../assets/img/dogecoin-logo.png" alt="doge incon so kawai" height="60px" width="60px"/>-->
 
         <div class="zonebilan">
-            <div class="monbilan">
-                <br>
-                <h1>Mon portefeuille</h1>
-                <h3><span>Valeur totale = </span><span>${{Cryptos.portefeuille.totalUSD}}</span>
-                <br><span class="alignement">=  </span><span>${{Cryptos.portefeuille.totalBTC}}</span><span> BTC</span>
-                <br><span> Capital de départ = </span><span>$ 1000</span>
-                <br><span> Investissements ponctuels = </span><span>$ 175</span>
-                <br><span> Total investi = </span><span>$ 1175</span></h3>
-                <hr class="monhr">
-                <h3><span>Profits / Pertes sur </span>
-                <select name="period" id="period-select">
-                    <option value="">--Choisir période--</option>
-                    <option value="1d">1 Jour</option>
-                    <option value="7d">7 Jours</option>
-                    <option value="30d">30 Jours</option>
-                </select>
-                <br><span>+ ou - valeure en $</span>
-                <br><span>+ ou - valeure en BTC</span></h3><br>
+            <div id="portfolio_bar">
+                <div id="portefeuille_infos" style="font-size: 21px; color: white;">MON PORTEFEUILLE</div>
+
+                <div class="evo" id="portefeuille_infos" style="display: inline-block; font-size: 17px; align-items: center;">
+                    <div style="display: inline-block; color: rgba(22, 148, 22, 0.555); margin-right: 2px;">$ </div>
+                    <div style="display: inline-block;">{{Cryptos.portefeuille.totalUSD}} / {{Cryptos.portefeuille.totalBTC}} </div>
+                    <div style="display: inline-block; color: rgba(255, 229, 82, 0.479); margin-left: 2px;"> BTC</div>
+                </div>
+    
+                
+
+                <div id="portefeuille_infos" class="evo" >
+                    <div style="display: inline-block;">Evolution 24h :</div>
+                    <div id="portefeuille_evo_24h" style="color: #2dd794; margin-left: 5px; display: inline-block;">+ 6.34%</div>
+                </div>
+
             </div>
-            <br><br>
         </div>
+            <!--
+            <div  class="monbilan">
+                     
+                <div id="portefeuille">
+                    <br>
+                    <h3>
+                    <br><span class="alignement">=  </span><span>${{Cryptos.portefeuille.totalBTC}}</span><span> BTC</span>
+                    <br><span> Capital de départ = </span><span>$ 1000</span>
+                    <br><span> Investissements ponctuels = </span><span>$ 175</span>
+                    <br><span> Total investi = </span><span>$ 1175</span></h3>
+                </div>
+
+                <div id="portefeuille_evo">
+                    <h3><span>Profits / Pertes sur </span>
+                    <br><span>+ ou - valeure en $</span>
+                    <br><span>+ ou - valeure en BTC</span></h3><br>
+                </div>                     
+                
+            </div>
+            <hr class="monhr">
+            <br><br>
+            -->
+    <div class="zonemontab">
+        <table class="table" id="mesCryptos">
+            <thead id="block">
+                <tr class="tabtitle">
+                <th class="text-left">#</th>
+                <th class="text-center">Amount</th>
+                <th class="text-center">Coin</th>
+                <th class="text-center">Price</th>
+                <th class="text-center">Total</th>
+                <th class="text-center">1h</th>
+                <th class="text-center">24h</th>
+                <th class="text-center">7d</th>
+                </tr>
+            </thead>
+            
+                <tbody>
+                
+                <tr *ngFor="let asset of Cryptos.balances; let i = index">
+                    <td class="text-left"><a href="#" class="normalLink">{{i+1}}</a></td>
+                    <td class="text-center" ><a href="#" class="normalLink" >{{asset.amount}}</a></td>
+                    <td class="text-center"><a href="#" class="normalLink">{{asset.coin}}</a></td>
+                    <td class="text-center"><a href="#" class="normalLink">${{asset.price}}</a></td>
+                    <td class="text-center"><a href="#" class="normalLink">${{asset.total}}</a></td>
+                    <td class="text-center"><a href="#" class="normalLink">{{asset.oneHourVar}}%</a></td>
+                    <td class="text-center"><a href="#" class="normalLink">{{asset.twFourHourVar}}%</a></td>
+                    <td class="text-center"><a href="#" class="normalLink">{{asset.sevenDaysVar}}%</a></td>
+                </tr>
+                    
+                </tbody>
+            
+        </table>
+        <br>
     </div>
+       
+   
 </div>

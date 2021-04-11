@@ -15,7 +15,7 @@ export class ChartsComponent implements OnInit {
   public clicked1: boolean = false;
   public clicked2: boolean = false;
   public interval = '1m';
-  public symbol = 'ETHUSDT';
+  public symbol = 'BNBUSDT';
 
   constructor() { }
 
@@ -24,12 +24,14 @@ export class ChartsComponent implements OnInit {
     const client = Binance();
 
     client.time().then(timestamp => {
-      var chart = createChart(document.getElementById('chartBig1'), {
-        width: 1200,
-        height: 600,
+      let e = document.getElementById('chartBig1')
+      var chart = createChart(e, {
+        width: e.offsetWidth - 40,
+        height: 300,
         layout: {
           backgroundColor: '#FF000000', //1e1e2a
-          textColor: 'rgba(255, 255, 255, 0.9)',
+          textColor: 'rgba(235, 235, 235, 0.9)',
+          
         },
         grid: {
           vertLines: {
@@ -43,19 +45,19 @@ export class ChartsComponent implements OnInit {
           mode: CrosshairMode.Normal,
         },
         timeScale: {
-          borderColor: 'rgba(197, 203, 206, 0.8)',
+          borderColor: 'rgba(249, 201, 7, 0.979)',
           timeVisible: true,
           secondsVisible: false,
         },
       });
       
       var candleSeries = chart.addCandlestickSeries({
-        upColor: '#00ff00',
-        downColor: '#ff0000', 
-        borderDownColor: 'rgba(255, 144, 0, 1)',
-        borderUpColor: 'rgba(255, 144, 0, 1)',
-        wickDownColor: 'rgba(255, 144, 0, 1)',
-        wickUpColor: 'rgba(255, 144, 0, 1)',
+        upColor: '#2dd794',
+        downColor: '#e61e42', 
+        borderDownColor: '#e61e42',
+        borderUpColor: '#2dd794',
+        wickDownColor: '#e61e42',
+        wickUpColor: '#2dd794',
       });
       
       var conf = {
@@ -126,7 +128,4 @@ export class ChartsComponent implements OnInit {
     }
   }
 
-  public updateOptions() {
-    
-  }
 }
