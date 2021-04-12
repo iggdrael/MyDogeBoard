@@ -5,18 +5,27 @@
 
             <div class="evo" id="portefeuille_infos"
                 style="display: inline-block; font-size: 17px; align-items: center;">
-                <div style="display: inline-block; color: rgba(22, 148, 22, 0.555); margin-right: 2px;">$ </div>
-                <div style="display: inline-block;">{{Cryptos.portefeuille.totalUSD}} /
-                    {{Cryptos.portefeuille.totalBTC}} </div>
-                <div style="display: inline-block; color: rgba(255, 229, 82, 0.479); margin-left: 2px;"> BTC</div>
+                <div style="display: inline-block; color: #2dd794; margin-right: 2px;">$ </div>
+                <div style="display: inline-block;">{{Cryptos.portefeuille.totalUSD}} / {{Cryptos.portefeuille.totalBTC}} </div>
+                <div style="display: inline-block; color: rgba(240, 210, 39, 0.781); margin-left: 2px;"> BTC</div>
             </div>
 
 
 
             <div id="portefeuille_infos" class="evo">
-                <div style="display: inline-block;">Evolution 24h :</div>
-                <div id="portefeuille_evo_24h" style="color: #2dd794; margin-left: 5px; display: inline-block;">+ 6.34%
+                <div class="inline">Evolution 1h :</div>
+                <div class="inline" [ngStyle]="{'color': Cryptos.portefeuille.price_change_1h == '-' ? '#2dd794' : '#e61e42'}">
+                    {{Cryptos.portefeuille.price_change_1h}}%
                 </div>
+
+                <div class="inline">Evolution 1d :</div>
+                <div class="inline" [ngStyle]="{'color': Cryptos.portefeuille.price_change_24h > 0 ? '#2dd794' : '#e61e42'}">{{Cryptos.portefeuille.price_change_24h}}%</div>
+
+                <div class="inline">Evolution 1w :</div>
+                <div class="inline" [ngStyle]="{'color': Cryptos.portefeuille.price_change_7d > 0 ? '#2dd794' : '#e61e42'}">{{Cryptos.portefeuille.price_change_7d}}%</div>
+
+                <div class="inline">Evolution 1m :</div>
+                <div class="inline" [ngStyle]="{'color': Cryptos.portefeuille.price_change_30d > 0 ? '#2dd794' : '#e61e42'}">{{Cryptos.portefeuille.price_change_30d}}%</div>
             </div>
 
         </div>
@@ -33,6 +42,7 @@
                     <th class="text-center">1h</th>
                     <th class="text-center">24h</th>
                     <th class="text-center">7d</th>
+                    <th class="text-center">30d</th>
                 </tr>
             </thead>
 
@@ -41,12 +51,16 @@
                 <tr *ngFor="let asset of Cryptos.balances; let i = index">
                     <td class="text-left"><a href="#" class="normalLink">{{i+1}}</a></td>
                     <td class="text-center"><a href="#" class="normalLink">{{asset.amount}}</a></td>
-                    <td class="text-center"><a href="#" class="normalLink">{{asset.coin}}</a></td>
+                    <td class="text-center">
+                        <img src={{asset.image}} alt="cryptoLogo" width="25" height="25">
+                        <a href="#" class="normalLink"> {{asset.name}} ({{asset.symbol}})</a>
+                    </td>
                     <td class="text-center"><a href="#" class="normalLink">${{asset.price}}</a></td>
                     <td class="text-center"><a href="#" class="normalLink">${{asset.total}}</a></td>
-                    <td class="text-center"><a href="#" class="normalLink-var">{{asset.oneHourVar}}%</a></td>
-                    <td class="text-center"><a href="#" class="normalLink-var">{{asset.twFourHourVar}}%</a></td>
-                    <td class="text-center"><a href="#" class="normalLink-var">{{asset.sevenDaysVar}}%</a></td>
+                    <td class="text-center"><a href="#" class="normalLink" [ngStyle]="{'color': asset.price_change_1h > 0 ? '#2dd794' : '#e61e42'}">{{asset.price_change_1h}}%</a></td>
+                    <td class="text-center"><a href="#" class="normalLink" [ngStyle]="{'color': asset.price_change_24h > 0 ? '#2dd794' : '#e61e42'}">{{asset.price_change_24h}}%</a></td>
+                    <td class="text-center"><a href="#" class="normalLink" [ngStyle]="{'color': asset.price_change_7d > 0 ? '#2dd794' : '#e61e42'}">{{asset.price_change_7d}}%</a></td>
+                    <td class="text-center"><a href="#" class="normalLink" [ngStyle]="{'color': asset.price_change_30d > 0 ? '#2dd794' : '#e61e42'}">{{asset.price_change_30d}}%</a></td>
                 </tr>
 
             </tbody>

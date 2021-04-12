@@ -8,6 +8,7 @@ import { AdminLayoutRoutes } from "./admin-layout.routing";
 import { DashboardComponent } from "../../pages/dashboard/dashboard.component";
 import { ChartsComponent } from "../../pages/charts/charts.component";
 import { TweetDeckComponent } from "../../pages/tweetdeck/tweetdeck.component";
+import { LoginComponent } from "../../pages/login/login.component"
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
@@ -23,6 +24,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     DashboardComponent,
     ChartsComponent,
     TweetDeckComponent,
+    LoginComponent
   ]
 })
 export class AdminLayoutModule {}
