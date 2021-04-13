@@ -4,6 +4,14 @@ const jwt       = require('jsonwebtoken')
 const config 	= require('./config')
 const Binance = require('binance-api-node').default;
 
+
+/**
+ * Fetch balances and quantity from Binance
+ *
+ * @param {*} binanceAPikey 	//Required to fetch user's data
+ * @param {*} binanceAPiSecret
+ * @return [{symbol, amount}]
+ */
 async function getBalances(binanceAPikey, binanceAPiSecret){
     let res = []
     let balance = await Binance({
@@ -12,6 +20,7 @@ async function getBalances(binanceAPikey, binanceAPiSecret){
 	}).accountInfo()
     for (let i = 0; i < balance['balances'].length; i++){
         let item = balance['balances'][i]
+		//Pushing non null balances
         if (item.free > 0){
             res.push({
                 symbol: item.asset,
@@ -22,14 +31,25 @@ async function getBalances(binanceAPikey, binanceAPiSecret){
     return res;
 }
 
+
+/**
+ * Updating user Api Keys and cryptosList on DB
+ * User must be logged in / valid token
+ *
+ * @param {*} req
+ * @param {*} res
+ */
 const updateUser =  async (req, res) => {
 	const { token, binanceAPikey, binanceAPiSecret } = req.body
 
 	try {
+		//Checking token
 		const user = jwt.verify(token, config.JWT_SECRET)
 		const _id = user.id
+		//getBalances from Binance API
 		let balances = await getBalances(binanceAPikey, binanceAPiSecret)
 
+		//Updating user data
 		await User.updateOne(
 			{ _id },
 			{
@@ -46,6 +66,15 @@ const updateUser =  async (req, res) => {
 	}
 }
 
+
+/**
+ * Create a new User on DB from valid username/ password
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @return {*} 
+ */
 const register  = async (req, res, next) => {
     const { username, password: plainTextPassword } = req.body
 
