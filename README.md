@@ -1,3 +1,5 @@
+![Product GIF](https://github.com/iggdrael/MyDogeBoard/blob/master/Annexes/coverGif.gif)
+
 > Authentification + mongoDB Atlas dataBase
 
 ![Recordit GIF](http://g.recordit.co/nv3mnu9ywn.gif)
