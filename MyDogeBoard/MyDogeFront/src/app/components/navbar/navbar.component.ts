@@ -3,6 +3,7 @@ import { ROUTES } from "../sidebar/sidebar.component";
 import { Location } from "@angular/common";
 import { Router } from "@angular/router";
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: "app-navbar",
@@ -24,7 +25,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     location: Location,
     private element: ElementRef,
     private router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private toastr: ToastrService
   ) {
     this.location = location;
     this.sidebarVisible = false;
@@ -40,6 +42,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
        navbar.classList.add('navbar-transparent');
      }
    };
+   showNotification = (from, align, typeAlert) => {
+    this.toastr.info('<span class="tim-icons icon-bell-55" [data-notify]="icon"></span>sssssssss', '', {
+      disableTimeOut: true,
+      closeButton: true,
+      enableHtml: true,
+      toastClass: "alert alert-" + typeAlert + " alert-with-icon",
+      positionClass: 'toast-' + from + '-' + align
+    });
+  }
   ngOnInit() {
     window.addEventListener("resize", this.updateColor);
     this.listTitles = ROUTES.filter(listTitle => listTitle);
@@ -53,6 +64,39 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.mobile_menu_visible = 0;
       }
     });
+
+    const form = document.getElementById('binanceAPiForm')
+    form.addEventListener('submit', updateKeys)
+
+    async function updateKeys(event) {
+        event.preventDefault()
+        const binanceAPikey = (<HTMLInputElement>document.getElementById('binanceAPikey')).value;
+        const binanceAPiSecret = (<HTMLInputElement>document.getElementById('binanceAPiSecret')).value;
+
+        if (binanceAPikey.length < 10 || binanceAPiSecret.length < 10)
+          return;
+
+        const result = await fetch('http://localhost:3080/api/updateUser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              token: localStorage.getItem('token'),
+              binanceAPikey: binanceAPikey,
+              binanceAPiSecret: binanceAPiSecret
+            })
+        }).then((res) => res.json())
+
+        if (result.status === 'ok') {
+            // everything went fine
+            alert('Success')
+        } else {
+          console.log(result.error)
+          alert(result.error)
+      }
+    }
+
   }
 
   collapse() {

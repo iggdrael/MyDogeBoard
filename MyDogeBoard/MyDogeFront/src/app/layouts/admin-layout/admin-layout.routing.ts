@@ -9,5 +9,5 @@ export const AdminLayoutRoutes: Routes = [
   { path: "dashboard", component: DashboardComponent },
   { path: "charts", component: ChartsComponent },
   { path: "tweetdeck", component: TweetDeckComponent },
-  { path: "login", component: LoginComponent }
+  { path: "login", component: LoginComponent },
 ];

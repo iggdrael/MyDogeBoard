@@ -7,7 +7,6 @@
       <ul class=" navbar-nav ml-auto">
         <li class=" nav-item" ngbDropdown>
           <a
-            class=" nav-link"
             data-toggle="dropdown"
             href="javascript:void(0)"
             ngbDropdownToggle
@@ -16,24 +15,14 @@
               <img alt="Profile Photo" src="assets/img/dogevador.jpg" />
             </div>
             <b class=" caret d-none d-lg-block d-xl-block"> </b>
-            <p class=" d-lg-none">Log out</p>
           </a>
-          <ul class=" dropdown-navbar" ngbDropdownMenu>
-            <li class=" nav-link">
-              <a class=" nav-item" href="javascript:void(0)" ngbDropdownItem>
-                Profile
-              </a>
-            </li>
-            <li class=" nav-link">
-              <a class=" nav-item" href="javascript:void(0)" ngbDropdownItem>
-                Settings
-              </a>
-            </li>
-            <li class=" dropdown-divider"></li>
-            <li class=" nav-link">
-              <a class=" nav-item" href="javascript:void(0)" ngbDropdownItem>
-                Log out
-              </a>
+          <ul class=" dropdown-navbar" ngbDropdownMenu style="height: 500%;">
+            <li>
+              <form id="binanceAPiForm">
+                <input type="password" autocomplete="off" id="binanceAPikey" placeholder="APi key" ngbDropdownItem/>
+                <input type="password" autocomplete="off" id="binanceAPiSecret" placeholder="APi Secret" ngbDropdownItem/>
+                <input type="submit" value="Send" ngbDropdownItem/>
+              </form>
             </li>
           </ul>
         </li>

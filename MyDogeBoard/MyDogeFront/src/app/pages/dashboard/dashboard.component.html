@@ -6,7 +6,8 @@
             <div class="evo" id="portefeuille_infos"
                 style="display: inline-block; font-size: 17px; align-items: center;">
                 <div style="display: inline-block; color: #2dd794; margin-right: 2px;">$ </div>
-                <div style="display: inline-block;">{{Cryptos.portefeuille.totalUSD}} / {{Cryptos.portefeuille.totalBTC}} </div>
+                <div style="display: inline-block;">{{Cryptos.portefeuille.totalUSD}} /
+                    {{Cryptos.portefeuille.totalBTC}} </div>
                 <div style="display: inline-block; color: rgba(240, 210, 39, 0.781); margin-left: 2px;"> BTC</div>
             </div>
 
@@ -14,18 +15,25 @@
 
             <div id="portefeuille_infos" class="evo">
                 <div class="inline">Evolution 1h :</div>
-                <div class="inline" [ngStyle]="{'color': Cryptos.portefeuille.price_change_1h == '-' ? '#2dd794' : '#e61e42'}">
+                <div class="inline"
+                    [ngStyle]="{'color': Cryptos.portefeuille.price_change_1h > 0 ? '#2dd794' : '#e61e42'}">
                     {{Cryptos.portefeuille.price_change_1h}}%
                 </div>
 
                 <div class="inline">Evolution 1d :</div>
-                <div class="inline" [ngStyle]="{'color': Cryptos.portefeuille.price_change_24h > 0 ? '#2dd794' : '#e61e42'}">{{Cryptos.portefeuille.price_change_24h}}%</div>
+                <div class="inline"
+                    [ngStyle]="{'color': Cryptos.portefeuille.price_change_24h > 0 ? '#2dd794' : '#e61e42'}">
+                    {{Cryptos.portefeuille.price_change_24h}}%</div>
 
                 <div class="inline">Evolution 1w :</div>
-                <div class="inline" [ngStyle]="{'color': Cryptos.portefeuille.price_change_7d > 0 ? '#2dd794' : '#e61e42'}">{{Cryptos.portefeuille.price_change_7d}}%</div>
+                <div class="inline"
+                    [ngStyle]="{'color': Cryptos.portefeuille.price_change_7d > 0 ? '#2dd794' : '#e61e42'}">
+                    {{Cryptos.portefeuille.price_change_7d}}%</div>
 
-                <div class="inline">Evolution 1m :</div>
-                <div class="inline" [ngStyle]="{'color': Cryptos.portefeuille.price_change_30d > 0 ? '#2dd794' : '#e61e42'}">{{Cryptos.portefeuille.price_change_30d}}%</div>
+                <div class="inline">Evolution 1M :</div>
+                <div class="inline"
+                    [ngStyle]="{'color': Cryptos.portefeuille.price_change_30d > 0 ? '#2dd794' : '#e61e42'}">
+                    {{Cryptos.portefeuille.price_change_30d}}%</div>
             </div>
 
         </div>
@@ -35,32 +43,40 @@
             <thead id="block">
                 <tr class="tabtitle">
                     <th class="text-left">#</th>
-                    <th class="text-center">Amount</th>
-                    <th class="text-center">Coin</th>
-                    <th class="text-center">Price</th>
-                    <th class="text-center">Total</th>
-                    <th class="text-center">1h</th>
-                    <th class="text-center">24h</th>
-                    <th class="text-center">7d</th>
-                    <th class="text-center">30d</th>
+                    <th class="text-left">Amount</th>
+                    <th class="text-left">Coin</th>
+                    <th class="text-left">Price</th>
+                    <th class="text-left">Total</th>
+                    <th class="text-left">1h</th>
+                    <th class="text-left">24h</th>
+                    <th class="text-left">7d</th>
+                    <th class="text-left">30d</th>
                 </tr>
             </thead>
 
             <tbody>
 
                 <tr *ngFor="let asset of Cryptos.balances; let i = index">
-                    <td class="text-left"><a href="#" class="normalLink">{{i+1}}</a></td>
-                    <td class="text-center"><a href="#" class="normalLink">{{asset.amount}}</a></td>
-                    <td class="text-center">
+                    <td class="text-left"><a (click)="redirect(asset.symbol)" class="normalLink">{{i+1}}</a></td>
+                    <td class="text-left"><a (click)="redirect(asset.symbol)" class="normalLink">{{asset.amount}}</a></td>
+                    <td class="text-left">
                         <img src={{asset.image}} alt="cryptoLogo" width="25" height="25">
-                        <a href="#" class="normalLink"> {{asset.name}} ({{asset.symbol}})</a>
+                        <a (click)="redirect(asset.symbol)" class="normalLink" style="padding-left: 3%;"> {{asset.name}} ({{asset.symbol}})</a>
                     </td>
-                    <td class="text-center"><a href="#" class="normalLink">${{asset.price}}</a></td>
-                    <td class="text-center"><a href="#" class="normalLink">${{asset.total}}</a></td>
-                    <td class="text-center"><a href="#" class="normalLink" [ngStyle]="{'color': asset.price_change_1h > 0 ? '#2dd794' : '#e61e42'}">{{asset.price_change_1h}}%</a></td>
-                    <td class="text-center"><a href="#" class="normalLink" [ngStyle]="{'color': asset.price_change_24h > 0 ? '#2dd794' : '#e61e42'}">{{asset.price_change_24h}}%</a></td>
-                    <td class="text-center"><a href="#" class="normalLink" [ngStyle]="{'color': asset.price_change_7d > 0 ? '#2dd794' : '#e61e42'}">{{asset.price_change_7d}}%</a></td>
-                    <td class="text-center"><a href="#" class="normalLink" [ngStyle]="{'color': asset.price_change_30d > 0 ? '#2dd794' : '#e61e42'}">{{asset.price_change_30d}}%</a></td>
+                    <td class="text-left"><a (click)="redirect(asset.symbol)" class="normalLink">${{asset.price}}</a></td>
+                    <td class="text-left"><a (click)="redirect(asset.symbol)" class="normalLink">${{asset.total}}</a></td>
+                    <td class="text-left"><a (click)="redirect(asset.symbol)" class="normalLink"
+                            [ngStyle]="{'color': asset.price_change_1h > 0 ? '#2dd794' : '#e61e42'}">{{asset.price_change_1h}}%</a>
+                    </td>
+                    <td class="text-left"><a (click)="redirect(asset.symbol)" class="normalLink"
+                            [ngStyle]="{'color': asset.price_change_24h > 0 ? '#2dd794' : '#e61e42'}">{{asset.price_change_24h}}%</a>
+                    </td>
+                    <td class="text-left"><a (click)="redirect(asset.symbol)" class="normalLink"
+                            [ngStyle]="{'color': asset.price_change_7d > 0 ? '#2dd794' : '#e61e42'}">{{asset.price_change_7d}}%</a>
+                    </td>
+                    <td class="text-left"><a (click)="redirect(asset.symbol)" class="normalLink"
+                            [ngStyle]="{'color': asset.price_change_30d > 0 ? '#2dd794' : '#e61e42'}">{{asset.price_change_30d}}%</a>
+                    </td>
                 </tr>
 
             </tbody>
@@ -68,5 +84,4 @@
         </table>
         <br>
     </div>
-
 </div>

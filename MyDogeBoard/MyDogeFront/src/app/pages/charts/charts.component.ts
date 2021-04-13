@@ -1,4 +1,5 @@
 import { Component, OnInit, } from '@angular/core';
+import { ApiService } from './../../services/api.service';
 import Binance from 'binance-api-node';
 import { createChart, CrosshairMode } from 'lightweight-charts';
 
@@ -8,18 +9,74 @@ import { createChart, CrosshairMode } from 'lightweight-charts';
 })
 
 export class ChartsComponent implements OnInit {
-  public datasets: any;
-  public data: any;
-  public myChartData;
+ 
   public clicked: boolean = true;
   public clicked1: boolean = false;
   public clicked2: boolean = false;
-  public interval = '1m';
-  public symbol = 'BNBUSDT';
+  public interval = localStorage.getItem('interval')
+  public asset = localStorage.getItem('symbol')
+  public symbol = this.asset + "USDT"
+  public crypto: any = {};
+  public user: any = {};
+  public amount: any = Number;
 
-  constructor() { }
+  constructor(private apiService: ApiService) { }
+
+  changeInterval(newInt){
+    localStorage.setItem('interval', newInt)
+    window.location.reload();
+  }
 
   ngOnInit() {
+
+    this.apiService.fetchOne(this.asset).then(res => {
+      console.log(res)
+      this.crypto = res.crypto;
+      this.user = res.user;
+      this.amount = 0
+
+      for (let i = 0; i < this.user.length; i++){
+        if (this.user[i].symbol == this.asset)
+          this.amount = this.user[i].amount
+      }
+    })
+
+    document.getElementById('assetButton').addEventListener('click', function(){
+      localStorage.setItem('symbol', ((<HTMLInputElement>document.getElementById('chosenAsset')).value).toUpperCase() )
+      window.location.reload();
+    })
+
+    document.getElementById("int"+this.interval).id = "selectedInt"
+    
+    var inputAchatUSDT = <HTMLInputElement>document.getElementById('inputAchatUSDT');
+    var inputAchatAsset = <HTMLInputElement>document.getElementById('inputAchatAsset');
+    var inputVenteUSDT = <HTMLInputElement>document.getElementById('inputVenteUSDT');
+    var inputVenteAsset = <HTMLInputElement>document.getElementById('inputVenteAsset');
+
+    inputAchatUSDT.addEventListener('keyup', function(){
+      var price = (<HTMLInputElement>document.getElementById('assetPrice')).innerText
+      inputAchatAsset.value = ((parseFloat(inputAchatUSDT.value) / parseFloat(price.substring(1)))).toString() ;
+    });
+    inputAchatAsset.addEventListener('keyup', function(){
+      var price = (<HTMLInputElement>document.getElementById('assetPrice')).innerText
+      inputAchatUSDT.value = ((parseFloat(inputAchatAsset.value) * parseFloat(price.substring(1)))).toString() ;
+    });
+    inputVenteUSDT.addEventListener('keyup', function(){
+      var price = (<HTMLInputElement>document.getElementById('assetPrice')).innerText
+      inputVenteAsset.value = ((parseFloat(inputVenteUSDT.value) / parseFloat(price.substring(1)))).toString() ;
+    });
+    inputVenteAsset.addEventListener('keyup', function(){
+      var price = (<HTMLInputElement>document.getElementById('assetPrice')).innerText
+      inputVenteUSDT.value = ((parseFloat(inputVenteAsset.value) * parseFloat(price.substring(1)))).toString() ;
+    });
+
+    document.getElementById('acheter').addEventListener('click', function(){
+      alert("Vous avez acheté " + inputAchatAsset.value + " " + localStorage.getItem('symbol') + " pour " + inputAchatUSDT.value + " USDT")
+    })
+    document.getElementById('vendre').addEventListener('click', function(){
+      alert("Vous avez vendu " + inputVenteAsset.value + " " + localStorage.getItem('symbol') + " pour " + inputVenteUSDT.value + " USDT")
+    })
+    
 
     const client = Binance();
 

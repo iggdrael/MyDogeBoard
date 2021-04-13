@@ -5,7 +5,7 @@ const userSchema    = new Schema({
     username: { type: String, required: true, unique: true },
 	password: { type: String, required: true },
     cryptosList: [{ symbol: { type: String }, amount: { type: Number } }],
-    binanceAPIKeys: { type: Array }
+    binanceAPIKeys: { binanceAPikey: { type: String }, binanceAPiSecret: { type: String } }
 })
 
 const User = mongoose.model('User', userSchema)

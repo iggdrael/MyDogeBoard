@@ -11,6 +11,8 @@ export class ApiService {
   // Node/Express API
 
   REST_API_CRYPTOS: string = 'http://localhost:3080/Cryptos';
+  REST_API_FETCHONE: string = 'http://localhost:3080/FetchOne';
+
 
   constructor(private httpClient: HttpClient) { }
   
@@ -25,6 +27,21 @@ export class ApiService {
       },
       body: JSON.stringify({
         token: localStorage.getItem('token')
+      })
+    })
+    return res.json()
+  }
+
+  //Fetching one Crypto in BDD
+  async fetchOne(asset) {
+    let res = await fetch(`${this.REST_API_FETCHONE}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        token: localStorage.getItem('token'),
+        asset: asset
       })
     })
     return res.json()

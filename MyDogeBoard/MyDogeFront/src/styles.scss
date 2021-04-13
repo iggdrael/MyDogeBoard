@@ -80,6 +80,10 @@ thead th {
   background-color: rgb(46, 46, 46);
 }
 
+.normalLink{
+  cursor: pointer;
+}
+
 .normalLink,
 .normalLink:focus {
   color: #c1c1c1;
@@ -194,13 +198,6 @@ h1 {
   width: 100%;
 }
 
-#graph_evo {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-left: 12px;
-  cursor: default;
-}
 #graph_setting {
   display: flex;
   align-content: center;
@@ -237,12 +234,18 @@ h1 {
   padding-left: 5px;
   padding-right: 5px;
   cursor: default;
-  display: flex;
-  flex-direction: row;
-  display: block;
+  display: inline-block;
+  align-items: center;
+  margin-left: 12px;
+  cursor: default;
 }
 
 //BOUTTONS SELECTION DE LA TAILLE DES BOUGIES
+
+#selectedInt{
+  box-shadow: inset 0px -2px 0px rgba(249, 201, 7, 0.979);
+}
+
 .button {
   border: 0 !important;
 
@@ -300,14 +303,14 @@ form {
   height: 30px;
 }
 
-.chosen-value,
+#chosenAsset,
 .value-list {
   //position: absolute;
 
   width: 100px;
 }
 
-.chosen-value {
+#chosenAsset {
   border-radius: 0.25rem;
   //font-family: 'Ek Mukta';
   text-transform: uppercase;
@@ -388,7 +391,8 @@ form {
   }
 }
 
-input {
+.inputAchatVente {
+  width: 100%;
   color: white;
   border-width: 0 0 2px;
   border-color: #27273b;
@@ -398,6 +402,7 @@ input {
 
 #achat_vente {
   width: 100%;
+  height: 500px;
   display: flex;
   flex-direction: wrap;
   justify-content: space-around;
@@ -478,4 +483,95 @@ input {
   #evo_div{
     margin-top: 10px;
   }
+}
+
+//----------
+/*
+body {
+  background-color: #2D324D;
+}*/
+
+#dogelogo{
+  left: 75px; 
+  height: 150px;
+  width: 150px;
+  top: -75px;
+  position: absolute;
+}
+
+#top_display{
+  height: 120px;
+}
+
+#submit{
+  margin-top: 40px;
+  width: 200px;
+  text-indent: 0px !important;
+  box-shadow: 2px 2px 4px #293263;
+  cursor: pointer;
+  font-size: 18px;
+  height: 40px;
+  transition: background-color 2s ease;
+  background: linear-gradient(196deg, rgba(250,219,65,1) 0%, rgba(249,218,65,1) 17%, rgba(250,234,147,1) 25%, rgba(250,219,65,1) 31%, rgba(245,216,68,1) 63%, rgba(255,238,147,1) 66%, rgba(245,216,69,1) 69%, rgba(245,215,66,1) 100%) !important;
+}
+
+#registerButton, #assetButton{
+  width: fit-content;
+  border-radius: .25rem;
+  background: linear-gradient(135deg, #424869 0%, #4A5178 81.64%);
+  box-shadow: inset 2px 2px 4px rgba(38, 49, 105, 0.18), inset -2px -2px 4px rgba(83, 92, 136, 0.16);
+  cursor: pointer;
+}
+
+#loginForm input {
+  margin: 10px;
+  text-indent: 8px;
+  outline: 0px !important;
+  border: 0px !important;
+  height: 35px;
+  width: 250px;
+  border-radius: .25rem;
+  background: linear-gradient(135deg, #424869 0%, #4A5178 81.64%);
+  box-shadow: inset 2px 2px 4px rgba(38, 49, 105, 0.18), inset -2px -2px 4px rgba(83, 92, 136, 0.16);
+}
+
+#loginForm{
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items : center;
+ ;
+}
+
+.center {
+
+  background-color: #2D324D;
+  opacity: 0.95;
+  box-shadow: -6px -6px 24px #555d83, 8px 8px 22px #363b57, inset 1px 1px 1px #293263, inset -1px -1px 4px #535c88;
+  border-radius: 21px;
+
+
+  width: 300px;
+  height: 450px;
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  } 
+
+  //**
+
+#formAsset {
+  display:flex;
+  flex-direction:row;
+  padding:2px;
+}
+
+#chosenAsset {
+  flex-grow:2;
+  border:none;
 }

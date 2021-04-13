@@ -5,55 +5,91 @@
     <div class="zonegraph">
       <div id="graph_top_bar">
         <div id="graph_setting">
-
-          <form>
-            <input class="chosen-value" type="text" value="" placeholder="BTC/USDT">
-            <ul class="value-list">
-            </ul>
-          </form>
-
-
-
+            <form id="formAsset">
+              <input id="chosenAsset" type="text" value="" placeholder="{{asset}}">
+              <button id="assetButton" >GO</button>
+            </form>
         </div>
 
         <div style="margin-left: 20px; margin-right: 20px;">
-          <button class="button">
+          <button class="button" (click)="changeInterval('1m')">
             <div class="button__content">
-              <p class="button__text">1m</p>
+              <p class="button__text" id="int1m">1m</p>
             </div>
           </button>
-          <button class="button">
+          <button class="button" (click)="changeInterval('5m')">
             <div class="button__content">
-              <p class="button__text">1h</p>
+              <p class="button__text" id="int5m">5m</p>
             </div>
           </button>
-          <button class="button">
+          <button class="button" (click)="changeInterval('1h')">
             <div class="button__content">
-              <p class="button__text">1d</p>
+              <p class="button__text" id="int1h">1h</p>
+            </div>
+          </button>
+          <button class="button" (click)="changeInterval('6h')">
+            <div class="button__content">
+              <p class="button__text" id="int6h">6h</p>
+            </div>
+          </button>
+          <button class="button" (click)="changeInterval('12h')">
+            <div class="button__content">
+              <p class="button__text" id="int12h">12h</p>
+            </div>
+          </button>
+          <button class="button" (click)="changeInterval('1d')">
+            <div class="button__content">
+              <p class="button__text" id="int1d">1d</p>
+            </div>
+          </button>
+          <button class="button" (click)="changeInterval('1w')">
+            <div class="button__content">
+              <p class="button__text" id="int1w">1w</p>
+            </div>
+          </button>
+          <button class="button" (click)="changeInterval('1M')">
+            <div class="button__content">
+              <p class="button__text" id="int1M">1M</p>
             </div>
           </button>
         </div>
 
 
         <div id="evo_div">
+
+          <div id="resp_graphevo">
+            <div style="display: inline-block;">Paire :</div> 
+            <div class="evo" style="color: #d1d1d2;">{{asset}}/USDT</div>
+          </div>
+
+          <div id="resp_graphevo">
+            <div style="display: inline-block;">Prix :</div> 
+            <div class="evo" style="color: #d1d1d2;" id="assetPrice">${{crypto.price}}</div>
+          </div>
+
           <div>
-            <div style="display: inline-block;">Jour :</div>
-            <div class="evo" id="graph_evo" style="color: #2dd794; display: inline-block;">+ 1.41%</div>
+            <div style="display: inline-block;">1h :</div>
+            <div class="evo" [ngStyle]="{'color': crypto.price_change_1h > 0 ? '#2dd794' : '#e61e42'}">{{crypto.price_change_1h}}%</div>
+          </div>
+
+          <div>
+            <div style="display: inline-block;">24h :</div>
+            <div class="evo" [ngStyle]="{'color': crypto.price_change_24h > 0 ? '#2dd794' : '#e61e42'}">{{crypto.price_change_24h}}%</div>
           </div>
 
           <div id="resp_graphevo">
-            <div style="display: inline-block;">Semaine :</div>
-            <div class="evo" id="graph_evo" style="color: #e61e42; display: inline-block;">- 5.41%</div>
+            <div style="display: inline-block;">7d :</div>
+            <div class="evo" [ngStyle]="{'color': crypto.price_change_7d > 0 ? '#2dd794' : '#e61e42'}">{{crypto.price_change_7d}}%</div>
           </div>
 
           <div id="resp_graphevo">
-            <div style="display: inline-block;">Mois :</div> 
-            <div class="evo" id="graph_evo" style="color: #2dd794; display: inline-block;">+ 13.71%</div>
+            <div style="display: inline-block;">30d :</div> 
+            <div class="evo" [ngStyle]="{'color': crypto.price_change_30d > 0 ? '#2dd794' : '#e61e42'}">{{crypto.price_change_30d}}%</div>
           </div>
+
         </div>
       </div>
 
-    
       <div id="chartBig1"></div>
 
 
@@ -66,102 +102,39 @@
 
         <div class="column_achat_vente">
 
-          <div style="display: flex; flex-direction: row;">
-            <div style="white-space: nowrap;">USDT : </div> 
-            <input type="Montant" placeholder="Montant" style="width: 100%;">
-          </div>
-          
-          <div style="display: flex; flex-direction: row;">
-            <div style="white-space: nowrap;">BTC : </div>
-            <input type="Total" placeholder="Total" style="width: 100%;">
-          </div>
-          
-          <button id="acheter">Acheter</button>
-
+          <form>
+            <div style="display: flex; flex-direction: row;">
+              <div style="white-space: nowrap;">USDT : </div> 
+              <input id="inputAchatUSDT" class="inputAchatVente" type="Montant" placeholder="Montant" autocomplete="off" required>
+            </div>
+            
+            <div style="display: flex; flex-direction: row;">
+              <div style="white-space: nowrap;">{{asset}} : </div>
+              <input id="inputAchatAsset" class="inputAchatVente" type="Total" placeholder="{{amount}}" autocomplete="off" required>
+            </div>
+            
+            <input type="submit" id="acheter" value="Acheter">
+          </form>
         </div>
 
         <div class="column_achat_vente">
 
-          <div style="display: flex; flex-direction: row;">
-            <div style="white-space: nowrap;">BTC : </div>
-            <input type="Montant" placeholder="Montant" style="width: 100%;">
-          </div>
+          <form>
+            <div style="display: flex; flex-direction: row;">
+              <div style="white-space: nowrap;">{{asset}} : </div>
+              <input id="inputVenteAsset" class="inputAchatVente" type="Montant" placeholder="{{amount}}" autocomplete="off" required>
+            </div>
 
-          <div style="display: flex; flex-direction: row;">
-            <div style="white-space: nowrap;">USDT : </div> 
-            <input type="Total" placeholder="Total" style="width: 100%;">
-          </div>
+            <div style="display: flex; flex-direction: row;">
+              <div style="white-space: nowrap;">USDT : </div> 
+              <input id="inputVenteUSDT" class="inputAchatVente" type="Total" placeholder="Total" autocomplete="off" required>
+            </div>
 
-          <button id="vendre">Vendre</button>
+            <input type="submit" id="vendre" value="Vendre">
+          </form>
 
         </div>
       </div>
     </div>
   </div>
-    <!--
-    <div class=" card card-chart">
-        <div class=" card-header">
-          <div class=" row">
-            <div class=" col-sm-6 text-left">
-              <h5 class=" card-category">Charts</h5>
-              <h2 class=" card-title">BTC/USDT</h2>
-            </div>
-            <div class=" col-sm-6">
-              <div
-                class=" btn-group btn-group-toggle float-right"
-                data-toggle="buttons"
-              >
-                <label class=" btn btn-sm btn-danger btn-simple" (click)="data=datasets[0];updateOptions();clicked=true;clicked1=false;clicked2=false" [ngClass]="{'active':clicked===true}">
-                  <input checked="checked" name="options" type="radio" />
-    
-                  <span
-                    class=" d-none d-sm-block d-md-block d-lg-block d-xl-block"
-                  >
-                    1m
-                  </span>
-                  <span class=" d-block d-sm-none">
-                    <i class=" tim-icons icon-single-02"> </i>
-                  </span>
-                </label>
-                <label class=" btn btn-sm btn-danger btn-simple" (click)="data=datasets[1];updateOptions();clicked=false;clicked1=true;clicked2=false" [ngClass]="{'active':clicked1===true}">
-                  <input
-                    class=" d-none d-sm-none"
-                    name="options"
-                    type="radio"
-                  />
-    
-                  <span
-                    class=" d-none d-sm-block d-md-block d-lg-block d-xl-block"
-                  >
-                    5m
-                  </span>
-                  <span class=" d-block d-sm-none">
-                    <i class=" tim-icons icon-gift-2"> </i>
-                  </span>
-                </label>
-                <label class=" btn btn-sm btn-danger btn-simple" (click)="data=datasets[2];updateOptions();clicked=false;clicked1=false;clicked2=true" [ngClass]="{'active':clicked2===true}">
-                  <input class=" d-none" name="options" type="radio" />
-    
-                  <span
-                    class=" d-none d-sm-block d-md-block d-lg-block d-xl-block"
-                  >
-                    15m
-                  </span>
-                  <span class=" d-block d-sm-none">
-                    <i class=" tim-icons icon-tap-02"> </i>
-                  </span>
-                </label>
-              </div>
-            </div>
-          </div>
-          <div class=" card-body">
-            <div class=" chart-area"><canvas id="chartBig1"> </canvas></div>
-          </div>
-        </div>
-        <div class=" card-body">
-          <div class=" chart-area">
-            <div id="chartBig1"> </div>
-            </div>
-        </div>
-      </div>-->
   </div>

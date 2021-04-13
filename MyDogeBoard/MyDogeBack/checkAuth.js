@@ -2,44 +2,41 @@ const User      = require('./user')
 const bcrypt    = require('bcryptjs')
 const jwt       = require('jsonwebtoken')
 const config 	= require('./config')
+const Binance = require('binance-api-node').default;
 
+async function getBalances(binanceAPikey, binanceAPiSecret){
+    let res = []
+    let balance = await Binance({
+		apiKey: binanceAPikey,
+		apiSecret: binanceAPiSecret,
+	}).accountInfo()
+    for (let i = 0; i < balance['balances'].length; i++){
+        let item = balance['balances'][i]
+        if (item.free > 0){
+            res.push({
+                symbol: item.asset,
+                amount: parseFloat(item.free) + parseFloat(item.locked)
+            })
+        }
+    }
+    return res;
+}
 
 const updateUser =  async (req, res) => {
-	const { token } = req.body
+	const { token, binanceAPikey, binanceAPiSecret } = req.body
 
 	try {
 		const user = jwt.verify(token, config.JWT_SECRET)
-
 		const _id = user.id
+		let balances = await getBalances(binanceAPikey, binanceAPiSecret)
+
 		await User.updateOne(
 			{ _id },
 			{
-				$set: { cryptosList: [
-					{symbol:"BTC", amount: 0.2},
-					{symbol:"LTC", amount: 1},
-					{symbol:"ETH", amount: 1},
-					{symbol:"BNB", amount: 1},
-					{symbol:"BNT", amount: 4},
-					{symbol:"USDT", amount: 1},
-					{symbol:"OMG", amount: 8},
-					{symbol:"LINK", amount: 1},
-					{symbol:"ENJ", amount: 4},
-					{symbol:"MANA", amount: 1},
-					{symbol:"ADA", amount: 9},
-					{symbol:"XLM", amount: 1},
-					{symbol:"THETA", amount: 1},
-					{symbol:"REN", amount: 1},
-					{symbol:"BAND", amount: 4},
-					{symbol:"EUR", amount: 1},
-					{symbol:"FTT", amount: 1},
-					{symbol:"SOL", amount: 1},
-					{symbol:"DOT", amount: 1},
-					{symbol:"RUNE", amount: 18},
-					{symbol:"YFI", amount: 1},
-					{symbol:"OCEAN", amount: 1},
-					{symbol:"RSR", amount: 1},
-					{symbol:"EGLD", amount: 1},
-				] }
+				$set: { 
+					cryptosList: balances, 
+					binanceAPIKeys: { binanceAPikey: binanceAPikey, binanceAPiSecret: binanceAPiSecret }
+				}
 			}
 		)
 		res.json({ status: 'ok' })
@@ -72,7 +69,7 @@ const register  = async (req, res, next) => {
 			username,
 			password
 		})
-		console.log('Le compte a bien été créé', response)
+		console.log('Le compte a bien été créé, connectez-vous !', response)
 	} catch (error) {
 		if (error.code === 11000) {
 			// duplicate key
@@ -89,7 +86,7 @@ const login = async (req, res, next) => {
 	const user = await User.findOne({ username }).lean()
 
 	if (!user) {
-		return res.json({ status: 'error', error: 'Invalid username/password' })
+		return res.json({ status: 'error', error: 'Invalid username' })
 	}
 
 	if (await bcrypt.compare(password, user.password)) {
