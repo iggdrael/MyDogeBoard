@@ -4,8 +4,8 @@
 
 > Dashboard (user cryptos)
 
-![Recordit GIF](http://g.recordit.co/Bb7phkV7Bx.gif)
+![Recordit GIF](http://g.recordit.co/zFo4PxH0q1.gif)
 
 > Charts
 
-![Recordit GIF](http://g.recordit.co/17xxDB2K7S.gif)
+![Recordit GIF](http://g.recordit.co/w3uxGrQP2p.gif)
