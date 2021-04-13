@@ -1,6 +1,13 @@
 const mongoose  = require('mongoose')
 const Schema    = mongoose.Schema
 
+/**
+ * New Schema cryptoDatas for mongoDB
+ * The Schema for each asset is composed by
+ * an id, a symbol, a name, a price, and price variation for 1h, 24h, 7d, 30d
+ * 
+ * collation : enabling case insensitive search
+ */
 const cryptoDatas = new Schema({
     id: String,
     symbol: String,

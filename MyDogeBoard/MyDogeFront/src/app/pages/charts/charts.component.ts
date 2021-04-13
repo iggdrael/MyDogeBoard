@@ -10,9 +10,6 @@ import { createChart, CrosshairMode } from 'lightweight-charts';
 
 export class ChartsComponent implements OnInit {
  
-  public clicked: boolean = true;
-  public clicked1: boolean = false;
-  public clicked2: boolean = false;
   public interval = localStorage.getItem('interval')
   public asset = localStorage.getItem('symbol')
   public symbol = this.asset + "USDT"
