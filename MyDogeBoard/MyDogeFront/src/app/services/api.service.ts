@@ -7,6 +7,8 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
   providedIn: 'root'
 })
 
+//Providing Backend API endpoints
+
 export class ApiService {
   // Node/Express API
 
@@ -16,7 +18,12 @@ export class ApiService {
 
   constructor(private httpClient: HttpClient) { }
   
-  //Getting Balances
+  /**
+   * Getting user's Balances
+   *
+   * @return {*} 
+   * @memberof ApiService
+   */
   async GetBalances() {
     //return this.httpClient.get(`${this.REST_API_CRYPTOS}`)
    // console.log(localStorage.getItem('token'))
@@ -26,13 +33,21 @@ export class ApiService {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
+        //Auth token in request body
         token: localStorage.getItem('token')
       })
     })
     return res.json()
   }
 
-  //Fetching one Crypto in BDD
+
+  /**
+   * Fetching one Crypto in BDD
+   *
+   * @param {*} asset
+   * @return {*} 
+   * @memberof ApiService
+   */
   async fetchOne(asset) {
     let res = await fetch(`${this.REST_API_FETCHONE}`, {
       method: 'POST',
@@ -40,7 +55,9 @@ export class ApiService {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
+        //Auth token in request body
         token: localStorage.getItem('token'),
+        //Wanted asset
         asset: asset
       })
     })

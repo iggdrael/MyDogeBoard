@@ -78,6 +78,7 @@ const updateUser =  async (req, res) => {
 const register  = async (req, res, next) => {
     const { username, password: plainTextPassword } = req.body
 
+	//Check username / password, can add a regex if we want
     if (!username || typeof username !== 'string') {
 		return res.json({ status: 'error', error: 'Invalid username' })
 	}
@@ -91,9 +92,11 @@ const register  = async (req, res, next) => {
 		})
 	}
 
+	//hashing the password
     const password = await bcrypt.hash(plainTextPassword, 10)
 
 	try {
+		//Try to create a new user
 		const response = await User.create({
 			username,
 			password
@@ -101,7 +104,7 @@ const register  = async (req, res, next) => {
 		console.log('Le compte a bien été créé, connectez-vous !', response)
 	} catch (error) {
 		if (error.code === 11000) {
-			// duplicate key
+			// duplicate key == username already taken
 			return res.json({ status: 'error', error: 'Cet username existe déjà' })
 		}
 		throw error
@@ -110,23 +113,35 @@ const register  = async (req, res, next) => {
     res.json({ status: 'ok' })
 }
 
+
+/**
+ * Try to login, if success, the response will contain a JWT token
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @return {*} 
+ */
 const login = async (req, res, next) => {
     const { username, password } = req.body
+	// Looking for matching username
 	const user = await User.findOne({ username }).lean()
 
 	if (!user) {
 		return res.json({ status: 'error', error: 'Invalid username' })
 	}
 
+	//Checking if hashes are matching
 	if (await bcrypt.compare(password, user.password)) {
 		// the username, password combination is successful
 
+		//Logging in the user, returning his auth token
 		const token = jwt.sign({
 				id: user._id,
 				username: user.username
 			},
-			config.JWT_SECRET,
-            {expiresIn: '1h'})
+			config.JWT_SECRET, //Unique hashing key, must be secret
+            {expiresIn: '1h'}) //Auth lasts 1hour
 
 		return res.json({ status: 'ok', data: token })
 	}

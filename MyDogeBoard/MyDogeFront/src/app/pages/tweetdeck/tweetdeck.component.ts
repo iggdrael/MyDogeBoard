@@ -7,5 +7,6 @@ import { Component, OnInit } from "@angular/core";
 export class TweetDeckComponent implements OnInit {
   constructor() {}
 
+  //Mate work, empty af
   ngOnInit() {}
 }

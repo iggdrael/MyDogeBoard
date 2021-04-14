@@ -7,6 +7,8 @@ declare interface RouteInfo {
   icon: string;
   class: string;
 }
+
+//ROUTES for sidebar pages
 export const ROUTES: RouteInfo[] = [
   {
     path: "/dashboard",
@@ -44,6 +46,7 @@ export class SidebarComponent implements OnInit {
   ngOnInit() {
     this.menuItems = ROUTES.filter(menuItem => menuItem);
   }
+  //Responsive sidebar
   isMobileMenu() {
     if (window.innerWidth > 991) {
       return false;
