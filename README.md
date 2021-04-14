@@ -4,7 +4,7 @@
 
 ![Recordit GIF](http://g.recordit.co/nv3mnu9ywn.gif)
 
-> Dashboard (user cryptos)
+> Dashboard (personal wallet)
 
 ![Recordit GIF](http://g.recordit.co/zFo4PxH0q1.gif)
 
